@@ -1,7 +1,9 @@
 package com.pasareladigital.MyOCR.services;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 
 import net.sourceforge.tess4j.ITessAPI;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+
+import javax.imageio.ImageIO;
 
 @Service
 public class ImageService {
@@ -38,6 +42,13 @@ public class ImageService {
         // Convierte la imagen a texto
         String result="";
         result = this.tesseract.doOCR(imageFile);
+        return result;
+    }
+
+    public String convertImageToText(InputStream input) throws TesseractException, IOException {
+        BufferedImage imBuff = ImageIO.read(input);
+        String result="";
+        result = this.tesseract.doOCR(imBuff);
         return result;
     }
 

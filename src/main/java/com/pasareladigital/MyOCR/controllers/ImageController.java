@@ -33,19 +33,7 @@ public class ImageController {
     @PostMapping(value = "/image-to-text", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> imageToText(@RequestParam("image") MultipartFile file)  {
         try {
-
-            // Guarda la imagen en algún lugar
-            // Aquí te muestro cómo guardar la imagen en la carpeta resources del proyecto:
-            String pathFolder=env.getProperty("tmpImageFolder");
-            String path=pathFolder+"/" + file.getOriginalFilename();
-            File destinationFile = new File(path);
-            if (destinationFile.exists()) {
-                destinationFile.delete();
-            }
-            destinationFile.createNewFile();
-
-            MyFile.StreamToFile(file.getInputStream(), destinationFile);
-            String result = imageService.convertImageToText(destinationFile.getPath());
+            String result = imageService.convertImageToText(file.getInputStream());
             return ResponseEntity.ok(result);
 
         } catch (Exception exception) {
